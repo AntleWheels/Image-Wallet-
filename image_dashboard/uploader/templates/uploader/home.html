@@ -1,0 +1,17 @@
+<h2>Welcome, {{ request.user.username }}</h2>
+<a href="{% url 'upload_image' %}">Upload Image</a> |
+<a href="{% url 'logout' %}">Logout</a>
+
+<ul>
+  {% for img in images %}
+    <li>
+      <img src="{{ img.image.url }}" width="200"> - {{ img.uploaded_at }}
+      <form action="{% url 'delete_image' img.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+      </form>
+    </li>
+  {% empty %}
+    <li>No images uploaded.</li>
+  {% endfor %}
+</ul>
